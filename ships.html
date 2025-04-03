@@ -1,1142 +1,1136 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ships</title>
-    <style>
-        table {
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ships</title>
+        <style>
+            table {
             border-collapse: collapse;
             width: 100%;
-        }
-        th, td {
+            }
+            th, td {
             border: 1px solid #ffffff;
             padding: 8px;
             text-align: left; /* Added for better alignment */
-        }
-        th {
+            }
+            th {
             cursor: pointer;
             background-color: #222222; /* Slightly different bg for header */
-        }
-        body {
+            }
+            body {
             background-color: #000000;
             color: #ffffff;
             font-family: Arial, sans-serif; /* Optional: set a font style */
-        }
-        .icon {
+            }
+            .icon {
             height: 16px;
             width: auto;
             vertical-align: middle;
             margin-right: 4px; /* Add some space between icon and text */
-        }
-        #checkboxes label {
-             margin-right: 10px; /* Add spacing between checkboxes */
-             display: inline-block; /* Ensure labels align nicely */
-             margin-bottom: 5px; /* Add spacing below labels */
-        }
-        /* Center align numeric columns */
-        td:nth-child(n+4):not(:nth-child(12)), /* Target columns 4 to 11 (skip Price initially) */
-        th:nth-child(n+4):not(:nth-child(12)) {
+            }
+            #checkboxes label {
+            margin-right: 10px; /* Add spacing between checkboxes */
+            display: inline-block; /* Ensure labels align nicely */
+            margin-bottom: 5px; /* Add spacing below labels */
+            }
+            /* Center align numeric columns */
+            td:nth-child(n+4):not(:nth-child(12)), /* Target columns 4 to 11 (skip Price initially) */
+            th:nth-child(n+4):not(:nth-child(12)) {
             text-align: center;
-        }
-        /* Make the new Price column center aligned too */
-        td:nth-child(12), th:nth-child(12) {
-             text-align: center;
-        }
-        /* Align Race and Class icons centrally */
-        td:nth-child(1), td:nth-child(2) {
+            }
+            /* Make the new Price column center aligned too */
+            td:nth-child(12), th:nth-child(12) {
             text-align: center;
-        }
-
-
-    </style>
-</head>
-<body>
-    <h1>Ships</h1>
-
-    <!-- Category Checkboxes -->
-    <div id="checkboxes">
-        <label><input type="checkbox" value="Carrier" onchange="filterTable()"><img src="Carrier.png" alt="Carrier Icon" class="icon"> Carrier</label>
-        <label><input type="checkbox" value="Destroyer" onchange="filterTable()"><img src="Destroyer.png" alt="Destroyer Icon" class="icon"> Destroyer</label>
-        <label><input type="checkbox" value="Builder" onchange="filterTable()"><img src="Builder.png" alt="Builder Icon" class="icon"> Builder</label>
-        <label><input type="checkbox" value="Frigate" onchange="filterTable()"><img src="Frigate.png" alt="Frigate Icon" class="icon"> Frigate</label>
-        <label><input type="checkbox" value="Trader" onchange="filterTable()"><img src="Trader.png" alt="Trader Icon" class="icon"> Trader</label>
-        <label><input type="checkbox" value="Fighter" onchange="filterTable()"><img src="Fighter.png" alt="Fighter Icon" class="icon"> Fighter</label>
-        <label><input type="checkbox" value="Scout" onchange="filterTable()"><img src="Scout.png" alt="Scout Icon" class="icon"> Scout</label>
-        <label><input type="checkbox" value="Explorer" onchange="filterTable()"><img src="Explorer.png" alt="Explorer Icon" class="icon"> Explorer</label>
-        <br><br>
-        <label><input type="checkbox" value="Large" onchange="filterTable()"> Large</label>
-        <label><input type="checkbox" value="Medium" onchange="filterTable()"> Medium</label>
-        <label><input type="checkbox" value="Small" onchange="filterTable()"> Small</label>
-        <br><br>
-        <label><input type="checkbox" value="Military" onchange="filterTable()"> Military</label>
-        <label><input type="checkbox" value="Civilian" onchange="filterTable()"> Civilian</label>
-        <br><br>
-        <label><input type="checkbox" value="Terran" onchange="filterTable()"> Terran</label>
-        <label><input type="checkbox" value="LoV" onchange="filterTable()"> LoV</label>
-        <label><input type="checkbox" value="Multipod" onchange="filterTable()"> Multipod</label>
-        <label><input type="checkbox" value="Sneer" onchange="filterTable()"> Sneer</label>
-        <label><input type="checkbox" value="Oculon" onchange="filterTable()"> Oculon</label>
-        <label><input type="checkbox" value="Korg" onchange="filterTable()"> Korg</label>
-        <label><input type="checkbox" value="Virtual" onchange="filterTable()"> Virtual</label>
-        <label><input type="checkbox" value="Iridia" onchange="filterTable()"> Iridia</label>
-        <br><br>
-    </div>
-
-    <!-- Table -->
-    <table id="dataTable">
-        <thead>
-            <tr>
-                <th>Race</th>
-                <th>Class</th>
-                <th onclick="sortTable(2)" style="cursor: pointer;">Name</th>
-                <th onclick="sortTable(3)" style="cursor: pointer;">Large guns</th>
-                <th onclick="sortTable(4)" style="cursor: pointer;">Medium guns</th>
-                <th onclick="sortTable(5)" style="cursor: pointer;">Turrets</th>
-                <th onclick="sortTable(6)" style="cursor: pointer;">Small guns</th>
-                <th onclick="sortTable(7)" style="cursor: pointer;">Docking bays</th>
-                <th onclick="sortTable(8)" style="cursor: pointer;">Cargo bays</th>
-                <th onclick="sortTable(9)" style="cursor: pointer;">Equip slots</th>
-                <th onclick="sortTable(10)" style="cursor: pointer;">Maneuverability</th>
-                <th onclick="sortTable(11)" style="cursor: pointer;">Price</th> <!-- Added Header -->
-            </tr>
-        </thead>
-        <tbody>
-            <tr data-categories="Carrier,Terran,Large,Military">
-                <td>
-                    <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
-                </td>
-                <td>
-                    <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
-                </td>
-                <td>Galaxy class</td>
-                <td>0</td>
-                <td>0</td>
-                <td>4</td>
-                <td>0</td>
-                <td>8</td>
-                <td>4000</td>
-                <td>80</td>
-                <td>6</td>
-                <td>5000000</td> 
-            </tr>
-            <tr data-categories="Destroyer,Terran,Large,Military">
-                <td>
-                    <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
-                </td>
-                <td>
-                    <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
-                </td>
-                <td>Nebula class</td>
-                <td>1</td>
-                <td>0</td>
-                <td>6</td>
-                <td>0</td>
-                <td>2</td>
-                <td>2000</td>
-                <td>60</td>
-                <td>8</td>
-                <td>3000000</td> 
-            </tr>
-            <tr data-categories="Builder,Terran,Large,Civilian">
-                <td>
-                    <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
-                </td>
-                <td>
-                    <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
-                </td>
-                <td>Stardust class</td>
-                <td>0</td>
-                <td>0</td>
-                <td>2</td>
-                <td>0</td>
-                <td>4</td>
-                <td>8000</td>
-                <td>60</td>
-                <td>4</td>
-                <td>2000000</td> 
-            </tr>
-            <tr data-categories="Carrier,Multipod,Large,Military">
-                <td>
-                    <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
-                </td>
-                <td>
-                    <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
-                </td>
-                <td>Elephant</td>
-                <td>0</td>
-                <td>0</td>
-                <td>3</td>
-                <td>0</td>
-                <td>9</td>
-                <td>5000</td>
-                <td>80</td>
-                <td>5</td>
-                <td>6500000</td> 
-            </tr>
-            <tr data-categories="Destroyer,Multipod,Large,Military">
-                <td>
-                    <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
-                </td>
-                <td>
-                    <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
-                </td>
-                <td>Rhinoceros</td>
-                <td>1</td>
-                <td>0</td>
-                <td>5</td>
-                <td>0</td>
-                <td>3</td>
-                <td>3000</td>
-                <td>60</td>
-                <td>6</td>
-                <td>4000000</td> 
-            </tr>
-            <tr data-categories="Builder,Multipod,Large,Civilian">
-                <td>
-                    <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
-                </td>
-                <td>
-                    <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
-                </td>
-                <td>Hippopotamus</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>5</td>
-                <td>9000</td>
-                <td>90</td>
-                <td>3</td>
-                <td>4500000</td> 
-            </tr>
-            <tr data-categories="Builder,Sneer,Large,Civilian">
-                <td>
-                    <img src="Sneer.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Sneer Icon">
-                </td>
-                <td>
-                    <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
-                </td>
-                <td>Gold</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>5</td>
-                <td>9000</td>
-                <td>80</td>
-                <td>3</td>
-                <td>1500000</td> 
-            </tr>
-            <tr data-categories="Carrier,Oculon,Large,Military">
-                <td>
-                    <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
-                </td>
-                <td>
-                    <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
-                </td>
-                <td>Thor</td>
-                <td>0</td>
-                <td>0</td>
-                <td>5</td>
-                <td>0</td>
-                <td>7</td>
-                <td>3000</td>
-                <td>80</td>
-                <td>7</td>
-                <td>4500000</td> 
-            </tr>
-            <tr data-categories="Destroyer,Oculon,Large,Military">
-                <td>
-                    <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
-                </td>
-                <td>
-                    <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
-                </td>
-                <td>Odin</td>
-                <td>1</td>
-                <td>0</td>
-                <td>5</td>
-                <td>0</td>
-                <td>2</td>
-                <td>1000</td>
-                <td>80</td>
-                <td>9</td>
-                <td>7000000</td> 
-            </tr>
-            <tr data-categories="Builder,Oculon,Large,Civilian">
-                <td>
-                    <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
-                </td>
-                <td>
-                    <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
-                </td>
-                <td>Freyja</td>
-                <td>0</td>
-                <td>0</td>
-                <td>2</td>
-                <td>0</td>
-                <td>3</td>
-                <td>6000</td>
-                <td>50</td>
-                <td>5</td>
-                <td>4000000</td> 
-            </tr>
-            <tr data-categories="Carrier,Korg,Large,Military">
-                <td>
-                    <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
-                </td>
-                <td>
-                    <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
-                </td>
-                <td>Admiral K</td>
-                <td>0</td>
-                <td>0</td>
-                <td>5</td>
-                <td>0</td>
-                <td>8</td>
-                <td>4000</td>
-                <td>60</td>
-                <td>5</td>
-                <td>6000000</td> 
-            </tr>
-            <tr data-categories="Destroyer,Korg,Large,Military">
-                <td>
-                    <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
-                </td>
-                <td>
-                    <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
-                </td>
-                <td>Tactician Vort</td>
-                <td>1</td>
-                <td>0</td>
-                <td>7</td>
-                <td>0</td>
-                <td>2</td>
-                <td>2000</td>
-                <td>40</td>
-                <td>6</td>
-                <td>9000000</td> 
-            </tr>
-            <tr data-categories="Builder,Korg,Large,Civilian">
-                <td>
-                    <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
-                </td>
-                <td>
-                    <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
-                </td>
-                <td>Artisan Deel</td>
-                <td>0</td>
-                <td>0</td>
-                <td>3</td>
-                <td>0</td>
-                <td>4</td>
-                <td>7000</td>
-                <td>40</td>
-                <td>3</td>
-                <td>3000000</td> 
-            </tr>
-            <tr data-categories="Carrier,Virtual,Large,Military">
-                <td>
-                    <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
-                </td>
-                <td>
-                    <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
-                </td>
-                <td>Carrier</td>
-                <td>1</td>
-                <td>0</td>
-                <td>6</td>
-                <td>0</td>
-                <td>0</td>
-                <td>3000</td>
-                <td>60</td>
-                <td>8</td>
-                <td>8000000</td> 
-            </tr>
-            <tr data-categories="Destroyer,Virtual,Large,Military">
-                <td>
-                    <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
-                </td>
-                <td>
-                    <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
-                </td>
-                <td>Destroyer</td>
-                <td>2</td>
-                <td>0</td>
-                <td>7</td>
-                <td>0</td>
-                <td>0</td>
-                <td>2000</td>
-                <td>40</td>
-                <td>9</td>
-                <td>9000000</td> 
-            </tr>
-            <tr data-categories="Builder,Virtual,Large,Civilian">
-                <td>
-                    <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
-                </td>
-                <td>
-                    <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
-                </td>
-                <td>Builder</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-                <td>9000</td>
-                <td>60</td>
-                <td>5</td>
-                <td>7000000</td> 
-            </tr>
-            <tr data-categories="Carrier,Iridia,Large,Military">
-                <td>
-                    <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
-                </td>
-                <td>
-                    <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
-                </td>
-                <td>Queen</td>
-                <td>0</td>
-                <td>0</td>
-                <td>4</td>
-                <td>0</td>
-                <td>9</td>
-                <td>5000</td>
-                <td>80</td>
-                <td>6</td>
-                <td>4000000</td> 
-            </tr>
-            <tr data-categories="Destroyer,Iridia,Large,Military">
-                <td>
-                    <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
-                </td>
-                <td>
-                    <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
-                </td>
-                <td>Prince</td>
-                <td>1</td>
-                <td>0</td>
-                <td>6</td>
-                <td>0</td>
-                <td>4</td>
-                <td>3000</td>
-                <td>60</td>
-                <td>8</td>
-                <td>2000000</td> 
-            </tr>
-            <tr data-categories="Frigate,Terran,Medium,Military">
-                <td>
-                    <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
-                </td>
-                <td>
-                    <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
-                </td>
-                <td>Emitter</td>
-                <td>0</td>
-                <td>6</td>
-                <td>4</td>
-                <td>0</td>
-                <td>0</td>
-                <td>300</td>
-                <td>15</td>
-                <td>30</td>
-                <td>500000</td> 
-            </tr>
-            <tr data-categories="Trader,Terran,Medium,Civilian">
-                <td>
-                    <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
-                </td>
-                <td>
-                    <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
-                </td>
-                <td>Accretor</td>
-                <td>0</td>
-                <td>1</td>
-                <td>2</td>
-                <td>0</td>
-                <td>0</td>
-                <td>500</td>
-                <td>25</td>
-                <td>20</td>
-                <td>300000</td> 
-            </tr>
-            <tr data-categories="Frigate,LoV,Medium,Military">
-                <td>
-                    <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
-                </td>
-                <td>
-                    <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
-                </td>
-                <td>MCP Flagship</td>
-                <td>0</td>
-                <td>5</td>
-                <td>4</td>
-                <td>0</td>
-                <td>0</td>
-                <td>400</td>
-                <td>20</td>
-                <td>35</td>
-                <td>400000</td> 
-            </tr>
-            <tr data-categories="Trader,LoV,Medium,Civilian">
-                <td>
-                    <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
-                </td>
-                <td>
-                    <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
-                </td>
-                <td>MCP Millionaire</td>
-                <td>0</td>
-                <td>2</td>
-                <td>3</td>
-                <td>0</td>
-                <td>0</td>
-                <td>600</td>
-                <td>30</td>
-                <td>25</td>
-                <td>200000</td> 
-            </tr>
-            <tr data-categories="Frigate,Multipod,Medium,Military">
-                <td>
-                    <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
-                </td>
-                <td>
-                    <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
-                </td>
-                <td>Tiger</td>
-                <td>0</td>
-                <td>4</td>
-                <td>3</td>
-                <td>0</td>
-                <td>0</td>
-                <td>300</td>
-                <td>20</td>
-                <td>25</td>
-                <td>600000</td> 
-            </tr>
-            <tr data-categories="Trader,Multipod,Medium,Civilian">
-                <td>
-                    <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
-                </td>
-                <td>
-                    <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
-                </td>
-                <td>Camel</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-                <td>700</td>
-                <td>35</td>
-                <td>25</td>
-                <td>500000</td> 
-            </tr>
-            <tr data-categories="Trader,Sneer,Medium,Civilian">
-                <td>
-                    <img src="Sneer.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Sneer Icon">
-                </td>
-                <td>
-                    <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
-                </td>
-                <td>Silver</td>
-                <td>0</td>
-                <td>1</td>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-                <td>700</td>
-                <td>35</td>
-                <td>30</td>
-                <td>300000</td> 
-            </tr>
-            <tr data-categories="Frigate,Oculon,Medium,Military">
-                <td>
-                    <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
-                </td>
-                <td>
-                    <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
-                </td>
-                <td>Demon</td>
-                <td>0</td>
-                <td>6</td>
-                <td>4</td>
-                <td>0</td>
-                <td>0</td>
-                <td>300</td>
-                <td>20</td>
-                <td>45</td>
-                <td>800000</td> 
-            </tr>
-            <tr data-categories="Trader,Oculon,Medium,Civilian">
-                <td>
-                    <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
-                </td>
-                <td>
-                    <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
-                </td>
-                <td>Genie</td>
-                <td>0</td>
-                <td>2</td>
-                <td>3</td>
-                <td>0</td>
-                <td>0</td>
-                <td>400</td>
-                <td>20</td>
-                <td>20</td>
-                <td>700000</td> 
-            </tr>
-            <tr data-categories="Frigate,Korg,Medium,Military">
-                <td>
-                    <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
-                </td>
-                <td>
-                    <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
-                </td>
-                <td>Vort's spear</td>
-                <td>0</td>
-                <td>8</td>
-                <td>5</td>
-                <td>0</td>
-                <td>0</td>
-                <td>200</td>
-                <td>25</td>
-                <td>20</td>
-                <td>550000</td> 
-            </tr>
-            <tr data-categories="Trader,Korg,Medium,Civilian">
-                <td>
-                    <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
-                </td>
-                <td>
-                    <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
-                </td>
-                <td>Deel's hammer</td>
-                <td>0</td>
-                <td>2</td>
-                <td>3</td>
-                <td>0</td>
-                <td>0</td>
-                <td>300</td>
-                <td>20</td>
-                <td>10</td>
-                <td>500000</td> 
-            </tr>
-            <tr data-categories="Frigate,Virtual,Medium,Military">
-                <td>
-                    <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
-                </td>
-                <td>
-                    <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
-                </td>
-                <td>Frigate</td>
-                <td>0</td>
-                <td>8</td>
-                <td>5</td>
-                <td>0</td>
-                <td>0</td>
-                <td>300</td>
-                <td>15</td>
-                <td>40</td>
-                <td>900000</td> 
-            </tr>
-            <tr data-categories="Trader,Virtual,Medium,Civilian">
-                <td>
-                    <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
-                </td>
-                <td>
-                    <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
-                </td>
-                <td>Transport</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-                <td>700</td>
-                <td>25</td>
-                <td>20</td>
-                <td>800000</td> 
-            </tr>
-            <tr data-categories="Frigate,Iridia,Medium,Military">
-                <td>
-                    <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
-                </td>
-                <td>
-                    <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
-                </td>
-                <td>Pollinator</td>
-                <td>0</td>
-                <td>5</td>
-                <td>4</td>
-                <td>0</td>
-                <td>0</td>
-                <td>300</td>
-                <td>15</td>
-                <td>30</td>
-                <td>150000</td> 
-            </tr>
-            <tr data-categories="Fighter,Terran,Small,Military">
-                <td>
-                    <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
-                </td>
-                <td>
-                    <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
-                </td>
-                <td>Electron F</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>4</td>
-                <td>0</td>
-                <td>30</td>
-                <td>5</td>
-                <td>60</td>
-                <td>40000</td> 
-            </tr>
-            <tr data-categories="Scout,Terran,Small,Military">
-                <td>
-                    <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
-                </td>
-                <td>
-                    <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
-                </td>
-                <td>Neutrino S</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>2</td>
-                <td>0</td>
-                <td>10</td>
-                <td>4</td>
-                <td>80</td>
-                <td>20000</td> 
-            </tr>
-            <tr data-categories="Explorer,Terran,Small,Civilian">
-                <td>
-                    <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
-                </td>
-                <td>
-                    <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
-                </td>
-                <td>Photon E</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>3</td>
-                <td>0</td>
-                <td>50</td>
-                <td>7</td>
-                <td>50</td>
-                <td>30000</td> 
-            </tr>
-            <tr data-categories="Fighter,LoV,Small,Military">
-                <td>
-                    <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
-                </td>
-                <td>
-                    <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
-                </td>
-                <td>Photon Mini</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>3</td>
-                <td>0</td>
-                <td>40</td>
-                <td>6</td>
-                <td>50</td>
-                <td>20000</td> 
-            </tr>
-            <tr data-categories="Scout,LoV,Small,Military">
-                <td>
-                    <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
-                </td>
-                <td>
-                    <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
-                </td>
-                <td>Breeze</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>20</td>
-                <td>5</td>
-                <td>80</td>
-                <td>10000</td> 
-            </tr>
-            <tr data-categories="Explorer,LoV,Small,Civilian">
-                <td>
-                    <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
-                </td>
-                <td>
-                    <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
-                </td>
-                <td>Vulture prototype</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>3</td>
-                <td>0</td>
-                <td>60</td>
-                <td>8</td>
-                <td>40</td>
-                <td>20000</td> 
-            </tr>
-            <tr data-categories="Fighter,Multipod,Small,Military">
-                <td>
-                    <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
-                </td>
-                <td>
-                    <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
-                </td>
-                <td>Wolf</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>3</td>
-                <td>0</td>
-                <td>40</td>
-                <td>4</td>
-                <td>40</td>
-                <td>40000</td> 
-            </tr>
-            <tr data-categories="Scout,Multipod,Small,Military">
-                <td>
-                    <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
-                </td>
-                <td>
-                    <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
-                </td>
-                <td>Fox</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>20</td>
-                <td>3</td>
-                <td>50</td>
-                <td>35000</td> 
-            </tr>
-            <tr data-categories="Explorer,Multipod,Small,Civilian">
-                <td>
-                    <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
-                </td>
-                <td>
-                    <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
-                </td>
-                <td>Coyote</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>2</td>
-                <td>0</td>
-                <td>70</td>
-                <td>9</td>
-                <td>30</td>
-                <td>40000</td> 
-            </tr>
-            <tr data-categories="Explorer,Sneer,Small,Civilian">
-                <td>
-                    <img src="Sneer.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Sneer Icon">
-                </td>
-                <td>
-                    <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
-                </td>
-                <td>Gem</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>80</td>
-                <td>7</td>
-                <td>30</td>
-                <td>20000</td> 
-            </tr>
-            <tr data-categories="Fighter,Oculon,Small,Military">
-                <td>
-                    <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
-                </td>
-                <td>
-                    <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
-                </td>
-                <td>Sorcerer</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>5</td>
-                <td>0</td>
-                <td>20</td>
-                <td>6</td>
-                <td>50</td>
-                <td>55000</td> 
-            </tr>
-            <tr data-categories="Scout,Oculon,Small,Military">
-                <td>
-                    <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
-                </td>
-                <td>
-                    <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
-                </td>
-                <td>Spirit</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>3</td>
-                <td>0</td>
-                <td>5</td>
-                <td>3</td>
-                <td>60</td>
-                <td>45000</td> 
-            </tr>
-            <tr data-categories="Explorer,Oculon,Small,Civilian">
-                <td>
-                    <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
-                </td>
-                <td>
-                    <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
-                </td>
-                <td>Oracle</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>4</td>
-                <td>0</td>
-                <td>30</td>
-                <td>5</td>
-                <td>40</td>
-                <td>50000</td> 
-            </tr>
-            <tr data-categories="Fighter,Korg,Small,Military">
-                <td>
-                    <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
-                </td>
-                <td>
-                    <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
-                </td>
-                <td>Hail</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>6</td>
-                <td>0</td>
-                <td>20</td>
-                <td>3</td>
-                <td>50</td>
-                <td>60000</td> 
-            </tr>
-            <tr data-categories="Scout,Korg,Small,Military">
-                <td>
-                    <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
-                </td>
-                <td>
-                    <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
-                </td>
-                <td>Droplet</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>4</td>
-                <td>0</td>
-                <td>10</td>
-                <td>2</td>
-                <td>50</td>
-                <td>55000</td> 
-            </tr>
-            <tr data-categories="Explorer,Korg,Small,Civilian">
-                <td>
-                    <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
-                </td>
-                <td>
-                    <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
-                </td>
-                <td>Snowflake</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>6</td>
-                <td>0</td>
-                <td>40</td>
-                <td>4</td>
-                <td>40</td>
-                <td>60000</td> 
-            </tr>
-            <tr data-categories="Fighter,Iridia,Small,Military">
-                <td>
-                    <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
-                </td>
-                <td>
-                    <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
-                </td>
-                <td>Defender</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>4</td>
-                <td>0</td>
-                <td>20</td>
-                <td>5</td>
-                <td>60</td>
-                <td>15000</td> 
-            </tr>
-            <tr data-categories="Scout,Iridia,Small,Military">
-                <td>
-                    <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
-                </td>
-                <td>
-                    <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
-                </td>
-                <td>Worker</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>2</td>
-                <td>0</td>
-                <td>10</td>
-                <td>4</td>
-                <td>80</td>
-                <td>10000</td> 
-            </tr>
-        </tbody>
-    </table>
-
-    <script>
-        function filterTable() {
-            const checkboxes = document.querySelectorAll('#checkboxes input[type="checkbox"]');
-            const rows = document.querySelectorAll('#dataTable tbody tr');
-            const selectedCategories = Array.from(checkboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-
-            // If no checkboxes are selected, show all rows
-            if (selectedCategories.length === 0) {
-                rows.forEach(row => {
-                    row.style.display = '';
+            }
+            /* Align Race and Class icons centrally */
+            td:nth-child(1), td:nth-child(2) {
+            text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Ships</h1>
+        <!-- Category Checkboxes -->
+        <div id="checkboxes">
+            <label><input type="checkbox" value="Carrier" onchange="filterTable()"><img src="Carrier.png" alt="Carrier Icon" class="icon"> Carrier</label>
+            <label><input type="checkbox" value="Destroyer" onchange="filterTable()"><img src="Destroyer.png" alt="Destroyer Icon" class="icon"> Destroyer</label>
+            <label><input type="checkbox" value="Builder" onchange="filterTable()"><img src="Builder.png" alt="Builder Icon" class="icon"> Builder</label>
+            <label><input type="checkbox" value="Frigate" onchange="filterTable()"><img src="Frigate.png" alt="Frigate Icon" class="icon"> Frigate</label>
+            <label><input type="checkbox" value="Trader" onchange="filterTable()"><img src="Trader.png" alt="Trader Icon" class="icon"> Trader</label>
+            <label><input type="checkbox" value="Fighter" onchange="filterTable()"><img src="Fighter.png" alt="Fighter Icon" class="icon"> Fighter</label>
+            <label><input type="checkbox" value="Scout" onchange="filterTable()"><img src="Scout.png" alt="Scout Icon" class="icon"> Scout</label>
+            <label><input type="checkbox" value="Explorer" onchange="filterTable()"><img src="Explorer.png" alt="Explorer Icon" class="icon"> Explorer</label>
+            <br><br>
+            <label><input type="checkbox" value="Large" onchange="filterTable()"> Large</label>
+            <label><input type="checkbox" value="Medium" onchange="filterTable()"> Medium</label>
+            <label><input type="checkbox" value="Small" onchange="filterTable()"> Small</label>
+            <br><br>
+            <label><input type="checkbox" value="Military" onchange="filterTable()"> Military</label>
+            <label><input type="checkbox" value="Civilian" onchange="filterTable()"> Civilian</label>
+            <br><br>
+            <label><input type="checkbox" value="Terran" onchange="filterTable()"> Terran</label>
+            <label><input type="checkbox" value="LoV" onchange="filterTable()"> LoV</label>
+            <label><input type="checkbox" value="Multipod" onchange="filterTable()"> Multipod</label>
+            <label><input type="checkbox" value="Sneer" onchange="filterTable()"> Sneer</label>
+            <label><input type="checkbox" value="Oculon" onchange="filterTable()"> Oculon</label>
+            <label><input type="checkbox" value="Korg" onchange="filterTable()"> Korg</label>
+            <label><input type="checkbox" value="Virtual" onchange="filterTable()"> Virtual</label>
+            <label><input type="checkbox" value="Iridia" onchange="filterTable()"> Iridia</label>
+            <br><br>
+        </div>
+        <!-- Table -->
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Race</th>
+                    <th>Class</th>
+                    <th onclick="sortTable(2)" style="cursor: pointer;">Name</th>
+                    <th onclick="sortTable(3)" style="cursor: pointer;">Large guns</th>
+                    <th onclick="sortTable(4)" style="cursor: pointer;">Medium guns</th>
+                    <th onclick="sortTable(5)" style="cursor: pointer;">Turrets</th>
+                    <th onclick="sortTable(6)" style="cursor: pointer;">Small guns</th>
+                    <th onclick="sortTable(7)" style="cursor: pointer;">Docking bays</th>
+                    <th onclick="sortTable(8)" style="cursor: pointer;">Cargo bays</th>
+                    <th onclick="sortTable(9)" style="cursor: pointer;">Equip slots</th>
+                    <th onclick="sortTable(10)" style="cursor: pointer;">Maneuverability</th>
+                    <th onclick="sortTable(11)" style="cursor: pointer;">Price</th>
+                    <!-- Added Header -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-categories="Carrier,Terran,Large,Military">
+                    <td>
+                        <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
+                    </td>
+                    <td>
+                        <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
+                    </td>
+                    <td>Galaxy class</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>8</td>
+                    <td>4000</td>
+                    <td>80</td>
+                    <td>6</td>
+                    <td>5000000</td>
+                </tr>
+                <tr data-categories="Destroyer,Terran,Large,Military">
+                    <td>
+                        <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
+                    </td>
+                    <td>
+                        <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
+                    </td>
+                    <td>Nebula class</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>6</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>2000</td>
+                    <td>60</td>
+                    <td>8</td>
+                    <td>3000000</td>
+                </tr>
+                <tr data-categories="Builder,Terran,Large,Civilian">
+                    <td>
+                        <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
+                    </td>
+                    <td>
+                        <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
+                    </td>
+                    <td>Stardust class</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>8000</td>
+                    <td>60</td>
+                    <td>4</td>
+                    <td>2000000</td>
+                </tr>
+                <tr data-categories="Carrier,Multipod,Large,Military">
+                    <td>
+                        <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
+                    </td>
+                    <td>
+                        <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
+                    </td>
+                    <td>Elephant</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>9</td>
+                    <td>5000</td>
+                    <td>80</td>
+                    <td>5</td>
+                    <td>6500000</td>
+                </tr>
+                <tr data-categories="Destroyer,Multipod,Large,Military">
+                    <td>
+                        <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
+                    </td>
+                    <td>
+                        <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
+                    </td>
+                    <td>Rhinoceros</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>3000</td>
+                    <td>60</td>
+                    <td>6</td>
+                    <td>4000000</td>
+                </tr>
+                <tr data-categories="Builder,Multipod,Large,Civilian">
+                    <td>
+                        <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
+                    </td>
+                    <td>
+                        <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
+                    </td>
+                    <td>Hippopotamus</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>9000</td>
+                    <td>90</td>
+                    <td>3</td>
+                    <td>4500000</td>
+                </tr>
+                <tr data-categories="Builder,Sneer,Large,Civilian">
+                    <td>
+                        <img src="Sneer.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Sneer Icon">
+                    </td>
+                    <td>
+                        <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
+                    </td>
+                    <td>Gold</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>9000</td>
+                    <td>80</td>
+                    <td>3</td>
+                    <td>1500000</td>
+                </tr>
+                <tr data-categories="Carrier,Oculon,Large,Military">
+                    <td>
+                        <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
+                    </td>
+                    <td>
+                        <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
+                    </td>
+                    <td>Thor</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>7</td>
+                    <td>3000</td>
+                    <td>80</td>
+                    <td>7</td>
+                    <td>4500000</td>
+                </tr>
+                <tr data-categories="Destroyer,Oculon,Large,Military">
+                    <td>
+                        <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
+                    </td>
+                    <td>
+                        <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
+                    </td>
+                    <td>Odin</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>1000</td>
+                    <td>80</td>
+                    <td>9</td>
+                    <td>7000000</td>
+                </tr>
+                <tr data-categories="Builder,Oculon,Large,Civilian">
+                    <td>
+                        <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
+                    </td>
+                    <td>
+                        <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
+                    </td>
+                    <td>Freyja</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>6000</td>
+                    <td>50</td>
+                    <td>5</td>
+                    <td>4000000</td>
+                </tr>
+                <tr data-categories="Carrier,Korg,Large,Military">
+                    <td>
+                        <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
+                    </td>
+                    <td>
+                        <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
+                    </td>
+                    <td>Admiral K</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>8</td>
+                    <td>4000</td>
+                    <td>60</td>
+                    <td>5</td>
+                    <td>6000000</td>
+                </tr>
+                <tr data-categories="Destroyer,Korg,Large,Military">
+                    <td>
+                        <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
+                    </td>
+                    <td>
+                        <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
+                    </td>
+                    <td>Tactician Vort</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>7</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>2000</td>
+                    <td>40</td>
+                    <td>6</td>
+                    <td>9000000</td>
+                </tr>
+                <tr data-categories="Builder,Korg,Large,Civilian">
+                    <td>
+                        <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
+                    </td>
+                    <td>
+                        <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
+                    </td>
+                    <td>Artisan Deel</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>7000</td>
+                    <td>40</td>
+                    <td>3</td>
+                    <td>3000000</td>
+                </tr>
+                <tr data-categories="Carrier,Virtual,Large,Military">
+                    <td>
+                        <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
+                    </td>
+                    <td>
+                        <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
+                    </td>
+                    <td>Carrier</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>6</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3000</td>
+                    <td>60</td>
+                    <td>8</td>
+                    <td>8000000</td>
+                </tr>
+                <tr data-categories="Destroyer,Virtual,Large,Military">
+                    <td>
+                        <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
+                    </td>
+                    <td>
+                        <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
+                    </td>
+                    <td>Destroyer</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>7</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>2000</td>
+                    <td>40</td>
+                    <td>9</td>
+                    <td>9000000</td>
+                </tr>
+                <tr data-categories="Builder,Virtual,Large,Civilian">
+                    <td>
+                        <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
+                    </td>
+                    <td>
+                        <img src="Builder.png" style="width: 32px; height: auto;" alt="Builder Icon">
+                    </td>
+                    <td>Builder</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>9000</td>
+                    <td>60</td>
+                    <td>5</td>
+                    <td>7000000</td>
+                </tr>
+                <tr data-categories="Carrier,Iridia,Large,Military">
+                    <td>
+                        <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
+                    </td>
+                    <td>
+                        <img src="Carrier.png" style="width: 32px; height: auto;" alt="Carrier Icon">
+                    </td>
+                    <td>Queen</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>9</td>
+                    <td>5000</td>
+                    <td>80</td>
+                    <td>6</td>
+                    <td>4000000</td>
+                </tr>
+                <tr data-categories="Destroyer,Iridia,Large,Military">
+                    <td>
+                        <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
+                    </td>
+                    <td>
+                        <img src="Destroyer.png" style="width: 32px; height: auto;" alt="Destroyer Icon">
+                    </td>
+                    <td>Prince</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>6</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>3000</td>
+                    <td>60</td>
+                    <td>8</td>
+                    <td>2000000</td>
+                </tr>
+                <tr data-categories="Frigate,Terran,Medium,Military">
+                    <td>
+                        <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
+                    </td>
+                    <td>
+                        <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
+                    </td>
+                    <td>Emitter</td>
+                    <td>0</td>
+                    <td>6</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>300</td>
+                    <td>15</td>
+                    <td>30</td>
+                    <td>500000</td>
+                </tr>
+                <tr data-categories="Trader,Terran,Medium,Civilian">
+                    <td>
+                        <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
+                    </td>
+                    <td>
+                        <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
+                    </td>
+                    <td>Accretor</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>500</td>
+                    <td>25</td>
+                    <td>20</td>
+                    <td>300000</td>
+                </tr>
+                <tr data-categories="Frigate,LoV,Medium,Military">
+                    <td>
+                        <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
+                    </td>
+                    <td>
+                        <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
+                    </td>
+                    <td>MCP Flagship</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>400</td>
+                    <td>20</td>
+                    <td>35</td>
+                    <td>400000</td>
+                </tr>
+                <tr data-categories="Trader,LoV,Medium,Civilian">
+                    <td>
+                        <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
+                    </td>
+                    <td>
+                        <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
+                    </td>
+                    <td>MCP Millionaire</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>600</td>
+                    <td>30</td>
+                    <td>25</td>
+                    <td>200000</td>
+                </tr>
+                <tr data-categories="Frigate,Multipod,Medium,Military">
+                    <td>
+                        <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
+                    </td>
+                    <td>
+                        <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
+                    </td>
+                    <td>Tiger</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>300</td>
+                    <td>20</td>
+                    <td>25</td>
+                    <td>600000</td>
+                </tr>
+                <tr data-categories="Trader,Multipod,Medium,Civilian">
+                    <td>
+                        <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
+                    </td>
+                    <td>
+                        <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
+                    </td>
+                    <td>Camel</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>700</td>
+                    <td>35</td>
+                    <td>25</td>
+                    <td>500000</td>
+                </tr>
+                <tr data-categories="Trader,Sneer,Medium,Civilian">
+                    <td>
+                        <img src="Sneer.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Sneer Icon">
+                    </td>
+                    <td>
+                        <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
+                    </td>
+                    <td>Silver</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>700</td>
+                    <td>35</td>
+                    <td>30</td>
+                    <td>300000</td>
+                </tr>
+                <tr data-categories="Frigate,Oculon,Medium,Military">
+                    <td>
+                        <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
+                    </td>
+                    <td>
+                        <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
+                    </td>
+                    <td>Demon</td>
+                    <td>0</td>
+                    <td>6</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>300</td>
+                    <td>20</td>
+                    <td>45</td>
+                    <td>800000</td>
+                </tr>
+                <tr data-categories="Trader,Oculon,Medium,Civilian">
+                    <td>
+                        <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
+                    </td>
+                    <td>
+                        <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
+                    </td>
+                    <td>Genie</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>400</td>
+                    <td>20</td>
+                    <td>20</td>
+                    <td>700000</td>
+                </tr>
+                <tr data-categories="Frigate,Korg,Medium,Military">
+                    <td>
+                        <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
+                    </td>
+                    <td>
+                        <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
+                    </td>
+                    <td>Vort's spear</td>
+                    <td>0</td>
+                    <td>8</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>200</td>
+                    <td>25</td>
+                    <td>20</td>
+                    <td>550000</td>
+                </tr>
+                <tr data-categories="Trader,Korg,Medium,Civilian">
+                    <td>
+                        <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
+                    </td>
+                    <td>
+                        <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
+                    </td>
+                    <td>Deel's hammer</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>300</td>
+                    <td>20</td>
+                    <td>10</td>
+                    <td>500000</td>
+                </tr>
+                <tr data-categories="Frigate,Virtual,Medium,Military">
+                    <td>
+                        <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
+                    </td>
+                    <td>
+                        <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
+                    </td>
+                    <td>Frigate</td>
+                    <td>0</td>
+                    <td>8</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>300</td>
+                    <td>15</td>
+                    <td>40</td>
+                    <td>900000</td>
+                </tr>
+                <tr data-categories="Trader,Virtual,Medium,Civilian">
+                    <td>
+                        <img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Virtual Icon">
+                    </td>
+                    <td>
+                        <img src="Trader.png" style="width: 32px; height: auto;" alt="Trader Icon">
+                    </td>
+                    <td>Transport</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>700</td>
+                    <td>25</td>
+                    <td>20</td>
+                    <td>800000</td>
+                </tr>
+                <tr data-categories="Frigate,Iridia,Medium,Military">
+                    <td>
+                        <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
+                    </td>
+                    <td>
+                        <img src="Frigate.png" style="width: 32px; height: auto;" alt="Frigate Icon">
+                    </td>
+                    <td>Pollinator</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>300</td>
+                    <td>15</td>
+                    <td>30</td>
+                    <td>150000</td>
+                </tr>
+                <tr data-categories="Fighter,Terran,Small,Military">
+                    <td>
+                        <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
+                    </td>
+                    <td>
+                        <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
+                    </td>
+                    <td>Electron F</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>30</td>
+                    <td>5</td>
+                    <td>60</td>
+                    <td>40000</td>
+                </tr>
+                <tr data-categories="Scout,Terran,Small,Military">
+                    <td>
+                        <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
+                    </td>
+                    <td>
+                        <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
+                    </td>
+                    <td>Neutrino S</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>10</td>
+                    <td>4</td>
+                    <td>80</td>
+                    <td>20000</td>
+                </tr>
+                <tr data-categories="Explorer,Terran,Small,Civilian">
+                    <td>
+                        <img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Terran Icon">
+                    </td>
+                    <td>
+                        <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
+                    </td>
+                    <td>Photon E</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>50</td>
+                    <td>7</td>
+                    <td>50</td>
+                    <td>30000</td>
+                </tr>
+                <tr data-categories="Fighter,LoV,Small,Military">
+                    <td>
+                        <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
+                    </td>
+                    <td>
+                        <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
+                    </td>
+                    <td>Photon Mini</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>40</td>
+                    <td>6</td>
+                    <td>50</td>
+                    <td>20000</td>
+                </tr>
+                <tr data-categories="Scout,LoV,Small,Military">
+                    <td>
+                        <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
+                    </td>
+                    <td>
+                        <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
+                    </td>
+                    <td>Breeze</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>20</td>
+                    <td>5</td>
+                    <td>80</td>
+                    <td>10000</td>
+                </tr>
+                <tr data-categories="Explorer,LoV,Small,Civilian">
+                    <td>
+                        <img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="LoV Icon">
+                    </td>
+                    <td>
+                        <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
+                    </td>
+                    <td>Vulture prototype</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>60</td>
+                    <td>8</td>
+                    <td>40</td>
+                    <td>20000</td>
+                </tr>
+                <tr data-categories="Fighter,Multipod,Small,Military">
+                    <td>
+                        <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
+                    </td>
+                    <td>
+                        <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
+                    </td>
+                    <td>Wolf</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>40</td>
+                    <td>4</td>
+                    <td>40</td>
+                    <td>40000</td>
+                </tr>
+                <tr data-categories="Scout,Multipod,Small,Military">
+                    <td>
+                        <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
+                    </td>
+                    <td>
+                        <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
+                    </td>
+                    <td>Fox</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>20</td>
+                    <td>3</td>
+                    <td>50</td>
+                    <td>35000</td>
+                </tr>
+                <tr data-categories="Explorer,Multipod,Small,Civilian">
+                    <td>
+                        <img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Multipod Icon">
+                    </td>
+                    <td>
+                        <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
+                    </td>
+                    <td>Coyote</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>70</td>
+                    <td>9</td>
+                    <td>30</td>
+                    <td>40000</td>
+                </tr>
+                <tr data-categories="Explorer,Sneer,Small,Civilian">
+                    <td>
+                        <img src="Sneer.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Sneer Icon">
+                    </td>
+                    <td>
+                        <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
+                    </td>
+                    <td>Gem</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>80</td>
+                    <td>7</td>
+                    <td>30</td>
+                    <td>20000</td>
+                </tr>
+                <tr data-categories="Fighter,Oculon,Small,Military">
+                    <td>
+                        <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
+                    </td>
+                    <td>
+                        <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
+                    </td>
+                    <td>Sorcerer</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>20</td>
+                    <td>6</td>
+                    <td>50</td>
+                    <td>55000</td>
+                </tr>
+                <tr data-categories="Scout,Oculon,Small,Military">
+                    <td>
+                        <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
+                    </td>
+                    <td>
+                        <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
+                    </td>
+                    <td>Spirit</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>3</td>
+                    <td>60</td>
+                    <td>45000</td>
+                </tr>
+                <tr data-categories="Explorer,Oculon,Small,Civilian">
+                    <td>
+                        <img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Oculon Icon">
+                    </td>
+                    <td>
+                        <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
+                    </td>
+                    <td>Oracle</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>30</td>
+                    <td>5</td>
+                    <td>40</td>
+                    <td>50000</td>
+                </tr>
+                <tr data-categories="Fighter,Korg,Small,Military">
+                    <td>
+                        <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
+                    </td>
+                    <td>
+                        <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
+                    </td>
+                    <td>Hail</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>6</td>
+                    <td>0</td>
+                    <td>20</td>
+                    <td>3</td>
+                    <td>50</td>
+                    <td>60000</td>
+                </tr>
+                <tr data-categories="Scout,Korg,Small,Military">
+                    <td>
+                        <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
+                    </td>
+                    <td>
+                        <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
+                    </td>
+                    <td>Droplet</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>10</td>
+                    <td>2</td>
+                    <td>50</td>
+                    <td>55000</td>
+                </tr>
+                <tr data-categories="Explorer,Korg,Small,Civilian">
+                    <td>
+                        <img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Korg Icon">
+                    </td>
+                    <td>
+                        <img src="Explorer.png" style="width: 32px; height: auto;" alt="Explorer Icon">
+                    </td>
+                    <td>Snowflake</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>6</td>
+                    <td>0</td>
+                    <td>40</td>
+                    <td>4</td>
+                    <td>40</td>
+                    <td>60000</td>
+                </tr>
+                <tr data-categories="Fighter,Iridia,Small,Military">
+                    <td>
+                        <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
+                    </td>
+                    <td>
+                        <img src="Fighter.png" style="width: 32px; height: auto;" alt="Fighter Icon">
+                    </td>
+                    <td>Defender</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>20</td>
+                    <td>5</td>
+                    <td>60</td>
+                    <td>15000</td>
+                </tr>
+                <tr data-categories="Scout,Iridia,Small,Military">
+                    <td>
+                        <img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Iridia Icon">
+                    </td>
+                    <td>
+                        <img src="Scout.png" style="width: 32px; height: auto;" alt="Scout Icon">
+                    </td>
+                    <td>Worker</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>10</td>
+                    <td>4</td>
+                    <td>80</td>
+                    <td>10000</td>
+                </tr>
+            </tbody>
+        </table>
+        <script>
+            function filterTable() {
+                const checkboxes = document.querySelectorAll('#checkboxes input[type="checkbox"]');
+                const rows = document.querySelectorAll('#dataTable tbody tr');
+                const selectedCategories = Array.from(checkboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+            
+                // If no checkboxes are selected, show all rows
+                if (selectedCategories.length === 0) {
+                    rows.forEach(row => {
+                        row.style.display = '';
+                    });
+                    return; // Exit the function early
+                }
+            
+                // Group selected categories by their type (Class, Size, Type, Race)
+                const filterGroups = {
+                    class: [],
+                    size: [],
+                    type: [],
+                    race: []
+                };
+            
+                const classValues = ["Carrier", "Destroyer", "Builder", "Frigate", "Trader", "Fighter", "Scout", "Explorer"];
+                const sizeValues = ["Large", "Medium", "Small"];
+                const typeValues = ["Military", "Civilian"];
+                const raceValues = ["Terran", "LoV", "Multipod", "Sneer", "Oculon", "Korg", "Virtual", "Iridia"];
+            
+                selectedCategories.forEach(category => {
+                    if (classValues.includes(category)) filterGroups.class.push(category);
+                    else if (sizeValues.includes(category)) filterGroups.size.push(category);
+                    else if (typeValues.includes(category)) filterGroups.type.push(category);
+                    else if (raceValues.includes(category)) filterGroups.race.push(category);
                 });
-                return; // Exit the function early
+            
+            
+                rows.forEach(row => {
+                    const rowCategories = row.getAttribute('data-categories').split(',');
+                    let isVisible = true;
+            
+                    // Check if the row matches at least one selected category in each active group
+                    if (filterGroups.class.length > 0 && !filterGroups.class.some(cat => rowCategories.includes(cat))) {
+                        isVisible = false;
+                    }
+                    if (isVisible && filterGroups.size.length > 0 && !filterGroups.size.some(cat => rowCategories.includes(cat))) {
+                        isVisible = false;
+                    }
+                    if (isVisible && filterGroups.type.length > 0 && !filterGroups.type.some(cat => rowCategories.includes(cat))) {
+                        isVisible = false;
+                    }
+                     if (isVisible && filterGroups.race.length > 0 && !filterGroups.race.some(cat => rowCategories.includes(cat))) {
+                        isVisible = false;
+                    }
+            
+                    row.style.display = isVisible ? '' : 'none';
+                });
             }
-
-            // Group selected categories by their type (Class, Size, Type, Race)
-            const filterGroups = {
-                class: [],
-                size: [],
-                type: [],
-                race: []
-            };
-
-            const classValues = ["Carrier", "Destroyer", "Builder", "Frigate", "Trader", "Fighter", "Scout", "Explorer"];
-            const sizeValues = ["Large", "Medium", "Small"];
-            const typeValues = ["Military", "Civilian"];
-            const raceValues = ["Terran", "LoV", "Multipod", "Sneer", "Oculon", "Korg", "Virtual", "Iridia"];
-
-            selectedCategories.forEach(category => {
-                if (classValues.includes(category)) filterGroups.class.push(category);
-                else if (sizeValues.includes(category)) filterGroups.size.push(category);
-                else if (typeValues.includes(category)) filterGroups.type.push(category);
-                else if (raceValues.includes(category)) filterGroups.race.push(category);
-            });
-
-
-            rows.forEach(row => {
-                const rowCategories = row.getAttribute('data-categories').split(',');
-                let isVisible = true;
-
-                // Check if the row matches at least one selected category in each active group
-                if (filterGroups.class.length > 0 && !filterGroups.class.some(cat => rowCategories.includes(cat))) {
-                    isVisible = false;
+            
+            let sortOrder = {}; // Keep track of sorting order for each column
+            
+            function sortTable(columnIndex) {
+                const table = document.getElementById('dataTable');
+                const tbody = table.tBodies[0];
+                const rows = Array.from(tbody.rows);
+            
+                // Check if the first data cell in the column contains 'AAA' or is purely numeric
+                let isNumeric = false;
+                if (rows.length > 0) {
+                    const firstCellContent = rows[0].cells[columnIndex].textContent.trim();
+                    // Only treat as numeric if it's NOT the placeholder 'AAA' and IS a number
+                    if (firstCellContent !== 'AAA' && !isNaN(firstCellContent) && firstCellContent !== '') {
+                         isNumeric = true;
+                    }
                 }
-                if (isVisible && filterGroups.size.length > 0 && !filterGroups.size.some(cat => rowCategories.includes(cat))) {
-                    isVisible = false;
+            
+            
+                // Toggle the sorting order for the column
+                const currentOrder = sortOrder[columnIndex] || 'desc'; // Default to desc first time
+                sortOrder[columnIndex] = currentOrder === 'asc' ? 'desc' : 'asc';
+                const newOrder = sortOrder[columnIndex];
+            
+            
+                rows.sort((a, b) => {
+                    const aText = a.cells[columnIndex].textContent.trim();
+                    const bText = b.cells[columnIndex].textContent.trim();
+            
+                    // Handle 'AAA' placeholders - treat them as lowest or highest depending on sort?
+                    // Let's treat 'AAA' as non-numeric text for comparison purposes.
+                    const aIsAAA = aText === 'AAA';
+                    const bIsAAA = bText === 'AAA';
+            
+                    let comparison;
+            
+                    if (isNumeric && !aIsAAA && !bIsAAA) {
+                        // Both are numbers (and not AAA)
+                        comparison = parseFloat(aText) - parseFloat(bText);
+                    } else {
+                         // Either one is 'AAA' or the column is treated as text
+                         comparison = aText.localeCompare(bText);
+                    }
+            
+                     // Apply sort order
+                    return newOrder === 'asc' ? comparison : -comparison;
+                });
+            
+                // Remove existing rows and append sorted rows
+                while (tbody.firstChild) {
+                    tbody.removeChild(tbody.firstChild);
                 }
-                if (isVisible && filterGroups.type.length > 0 && !filterGroups.type.some(cat => rowCategories.includes(cat))) {
-                    isVisible = false;
-                }
-                 if (isVisible && filterGroups.race.length > 0 && !filterGroups.race.some(cat => rowCategories.includes(cat))) {
-                    isVisible = false;
-                }
-
-                row.style.display = isVisible ? '' : 'none';
-            });
-        }
-
-        let sortOrder = {}; // Keep track of sorting order for each column
-
-        function sortTable(columnIndex) {
-            const table = document.getElementById('dataTable');
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.rows);
-
-            // Check if the first data cell in the column contains 'AAA' or is purely numeric
-            let isNumeric = false;
-            if (rows.length > 0) {
-                const firstCellContent = rows[0].cells[columnIndex].textContent.trim();
-                // Only treat as numeric if it's NOT the placeholder 'AAA' and IS a number
-                if (firstCellContent !== 'AAA' && !isNaN(firstCellContent) && firstCellContent !== '') {
-                     isNumeric = true;
-                }
+                rows.forEach(row => tbody.appendChild(row));
+            
+                 // Update header visual cue (optional: add arrow icons)
+                 updateSortIndicators(columnIndex, newOrder);
             }
-
-
-            // Toggle the sorting order for the column
-            const currentOrder = sortOrder[columnIndex] || 'desc'; // Default to desc first time
-            sortOrder[columnIndex] = currentOrder === 'asc' ? 'desc' : 'asc';
-            const newOrder = sortOrder[columnIndex];
-
-
-            rows.sort((a, b) => {
-                const aText = a.cells[columnIndex].textContent.trim();
-                const bText = b.cells[columnIndex].textContent.trim();
-
-                // Handle 'AAA' placeholders - treat them as lowest or highest depending on sort?
-                // Let's treat 'AAA' as non-numeric text for comparison purposes.
-                const aIsAAA = aText === 'AAA';
-                const bIsAAA = bText === 'AAA';
-
-                let comparison;
-
-                if (isNumeric && !aIsAAA && !bIsAAA) {
-                    // Both are numbers (and not AAA)
-                    comparison = parseFloat(aText) - parseFloat(bText);
-                } else {
-                     // Either one is 'AAA' or the column is treated as text
-                     comparison = aText.localeCompare(bText);
-                }
-
-                 // Apply sort order
-                return newOrder === 'asc' ? comparison : -comparison;
-            });
-
-            // Remove existing rows and append sorted rows
-            while (tbody.firstChild) {
-                tbody.removeChild(tbody.firstChild);
-            }
-            rows.forEach(row => tbody.appendChild(row));
-
-             // Update header visual cue (optional: add arrow icons)
-             updateSortIndicators(columnIndex, newOrder);
-        }
-
-        function updateSortIndicators(columnIndex, order) {
-             const headers = document.querySelectorAll('#dataTable th');
-             headers.forEach((th, index) => {
-                 // Remove existing indicators (simple text version)
-                 th.textContent = th.textContent.replace(/ [▲▼]$/, '');
-                 if (index === columnIndex) {
-                     // Add new indicator
-                     th.textContent += (order === 'asc' ? ' ▲' : ' ▼');
-                 }
-             });
-         }
-
-         // Initial filter call in case some checkboxes start checked (though none do here)
-         filterTable();
-    </script>
-</body>
+            
+            function updateSortIndicators(columnIndex, order) {
+                 const headers = document.querySelectorAll('#dataTable th');
+                 headers.forEach((th, index) => {
+                     // Remove existing indicators (simple text version)
+                     th.textContent = th.textContent.replace(/ [▲▼]$/, '');
+                     if (index === columnIndex) {
+                         // Add new indicator
+                         th.textContent += (order === 'asc' ? ' ▲' : ' ▼');
+                     }
+                 });
+             }
+            
+             // Initial filter call in case some checkboxes start checked (though none do here)
+             filterTable();
+        </script>
+    </body>
 </html>
-
-
