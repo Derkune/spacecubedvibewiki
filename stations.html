@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stations</title>
+        <style>
+            table {
+            border-collapse: collapse;
+            width: 100%;
+            }
+            th, td {
+            border: 1px solid #ffffff;
+            padding: 8px;
+            }
+            th {
+            cursor: pointer;
+            }
+            body {
+            background-color: #000000;
+            color: #ffffff;          
+            font-family: Arial, sans-serif; 
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Stations</h1>
+        <!-- Category Checkboxes -->
+        <div id="checkboxes">
+            <label><input type="checkbox" value="Habitat" onchange="filterTable()"> Habitat</label>
+            <label><input type="checkbox" value="Shipyard" onchange="filterTable()"> Shipyard</label>
+            <label><input type="checkbox" value="Factory" onchange="filterTable()"> Factory</label>
+            <label><input type="checkbox" value="Resource Depot" onchange="filterTable()"> Resource Depot</label>
+            <label><input type="checkbox" value="Terran" onchange="filterTable()"> Terran</label>
+            <label><input type="checkbox" value="LoV" onchange="filterTable()"> LoV</label>
+            <label><input type="checkbox" value="Multipod" onchange="filterTable()"> Multipod</label>
+            <label><input type="checkbox" value="Sneer" onchange="filterTable()"> Sneer</label>
+            <label><input type="checkbox" value="Oculon" onchange="filterTable()"> Oculon</label>
+            <label><input type="checkbox" value="Korg" onchange="filterTable()"> Korg</label>
+            <label><input type="checkbox" value="Virtual" onchange="filterTable()"> Virtual</label>
+            <label><input type="checkbox" value="Iridia" onchange="filterTable()"> Iridia</label>
+        </div>
+        <!-- Table -->
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Icons</th>
+                    <th>Categories</th>
+                    <th onclick="sortTable(2)">Price</th> <!-- Added Price Header -->
+                    <th onclick="sortTable(3)">Large docks</th> <!-- Updated index -->
+                    <th onclick="sortTable(4)">Smaller docks</th> <!-- Updated index -->
+                    <th onclick="sortTable(5)">Hull</th> <!-- Updated index -->
+                    <th onclick="sortTable(6)">Processing slots</th> <!-- Updated index -->
+                </tr>
+            </thead>
+            <!-- Added tbody for clarity, although not strictly necessary for functionality -->
+            <tbody> 
+                <tr data-categories="Terran,Habitat">
+                    <td><img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Terran Habitat</td>
+                    <td>500000000</td> 
+                    <td>0</td>
+                    <td>20</td>
+                    <td>20000</td>
+                    <td>5</td>
+                </tr>
+                <tr data-categories="LoV,Habitat">
+                    <td><img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>LoV Habitat</td>
+                    <td>300000000</td> 
+                    <td>0</td>
+                    <td>25</td>
+                    <td>15000</td>
+                    <td>6</td>
+                </tr>
+                <tr data-categories="Multipod,Habitat">
+                    <td><img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Multipod Habitat</td>
+                    <td>700000000</td> 
+                    <td>0</td>
+                    <td>30</td>
+                    <td>30000</td>
+                    <td>7</td>
+                </tr>
+                <tr data-categories="Sneer,Habitat">
+                    <td><img src="Sneer.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Sneer Habitat</td>
+                    <td>100000000</td> 
+                    <td>0</td>
+                    <td>15</td>
+                    <td>10000</td>
+                    <td>2</td>
+                </tr>
+                <tr data-categories="Oculon,Habitat">
+                    <td><img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Oculon Habitat</td>
+                    <td>800000000</td> 
+                    <td>0</td>
+                    <td>10</td>
+                    <td>25000</td>
+                    <td>9</td>
+                </tr>
+                <tr data-categories="Korg,Habitat">
+                    <td><img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Korg Habitat</td>
+                    <td>200000000</td> 
+                    <td>0</td>
+                    <td>35</td>
+                    <td>40000</td>
+                    <td>1</td>
+                </tr>
+                <tr data-categories="Iridia,Habitat">
+                    <td><img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Iridia Habitat</td>
+                    <td>100000000</td> 
+                    <td>0</td>
+                    <td>40</td>
+                    <td>50000</td>
+                    <td>5</td>
+                </tr>
+                <tr data-categories="Terran,Shipyard">
+                    <td><img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Terran Shipyard</td>
+                    <td>2000000000</td> 
+                    <td>3</td>
+                    <td>80</td>
+                    <td>60000</td>
+                    <td>15</td>
+                </tr>
+                <tr data-categories="Multipod,Shipyard">
+                    <td><img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Multipod Shipyard</td>
+                    <td>3000000000</td> 
+                    <td>2</td>
+                    <td>60</td>
+                    <td>55000</td>
+                    <td>12</td>
+                </tr>
+                <tr data-categories="Oculon,Shipyard">
+                    <td><img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Oculon Shipyard</td>
+                    <td>7000000000</td> 
+                    <td>5</td>
+                    <td>95</td>
+                    <td>30000</td>
+                    <td>20</td>
+                </tr>
+                <tr data-categories="Korg,Shipyard">
+                    <td><img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Korg Shipyard</td>
+                    <td>1000000000</td> 
+                    <td>6</td>
+                    <td>70</td>
+                    <td>80000</td>
+                    <td>10</td>
+                </tr>
+                <tr data-categories="Virtual,Shipyard">
+                    <td><img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Virtual Shipyard</td>
+                    <td>9000000000</td> 
+                    <td>9</td>
+                    <td>95</td>
+                    <td>90000</td>
+                    <td>25</td>
+                </tr>
+                <tr data-categories="Terran,Factory">
+                    <td><img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Terran Factory</td>
+                    <td>100000000</td> 
+                    <td>0</td>
+                    <td>5</td>
+                    <td>5000</td>
+                    <td>50</td>
+                </tr>
+                <tr data-categories="LoV,Factory">
+                    <td><img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>LoV Factory</td>
+                    <td>50000000</td> 
+                    <td>0</td>
+                    <td>6</td>
+                    <td>3000</td>
+                    <td>60</td>
+                </tr>
+                <tr data-categories="Multipod,Factory">
+                    <td><img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Multipod Factory</td>
+                    <td>200000000</td> 
+                    <td>0</td>
+                    <td>8</td>
+                    <td>6000</td>
+                    <td>55</td>
+                </tr>
+                <tr data-categories="Oculon,Factory">
+                    <td><img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Oculon Factory</td>
+                    <td>300000000</td> 
+                    <td>0</td>
+                    <td>4</td>
+                    <td>2000</td>
+                    <td>90</td>
+                </tr>
+                <tr data-categories="Korg,Factory">
+                    <td><img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Korg Factory</td>
+                    <td>30000000</td> 
+                    <td>0</td>
+                    <td>9</td>
+                    <td>7000</td>
+                    <td>30</td>
+                </tr>
+                <tr data-categories="Virtual,Factory">
+                    <td><img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Virtual Factory</td>
+                    <td>75000000</td> 
+                    <td>0</td>
+                    <td>9</td>
+                    <td>9000</td>
+                    <td>95</td>
+                </tr>
+                <tr data-categories="Terran,Resource Depot">
+                    <td><img src="Terran.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Terran Resource Depot</td>
+                    <td>50000000</td> 
+                    <td>1</td>
+                    <td>30</td>
+                    <td>3000</td>
+                    <td>3</td>
+                </tr>
+                <tr data-categories="LoV,Resource Depot">
+                    <td><img src="LoV.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>LoV Resource Depot</td>
+                    <td>10000000</td> 
+                    <td>0</td>
+                    <td>25</td>
+                    <td>2500</td>
+                    <td>2</td>
+                </tr>
+                <tr data-categories="Multipod,Resource Depot">
+                    <td><img src="Multipod.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Multipod Resource Depot</td>
+                    <td>70000000</td> 
+                    <td>0</td>
+                    <td>35</td>
+                    <td>3500</td>
+                    <td>4</td>
+                </tr>
+                <tr data-categories="Oculon,Resource Depot">
+                    <td><img src="Oculon.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Oculon Resource Depot</td>
+                    <td>90000000</td> 
+                    <td>2</td>
+                    <td>15</td>
+                    <td>1500</td>
+                    <td>5</td>
+                </tr>
+                <tr data-categories="Korg,Resource Depot">
+                    <td><img src="Korg.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Korg Resource Depot</td>
+                    <td>20000000</td> 
+                    <td>0</td>
+                    <td>45</td>
+                    <td>3500</td>
+                    <td>1</td>
+                </tr>
+                <tr data-categories="Virtual,Resource Depot">
+                    <td><img src="Virtual.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Virtual Resource Depot</td>
+                    <td>90000000</td> 
+                    <td>3</td>
+                    <td>20</td>
+                    <td>4000</td>
+                    <td>7</td>
+                </tr>
+                <tr data-categories="Iridia,Resource Depot">
+                    <td><img src="Iridia.png" style="width: 32px; height: 100%; aspect-ratio: 1 / 1;" alt="Image"></td>
+                    <td>Iridia Resource Depot</td>
+                    <td>15000000</td> 
+                    <td>1</td>
+                    <td>35</td>
+                    <td>3500</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+        <script>
+            function filterTable() {
+                const checkboxes = document.querySelectorAll('#checkboxes input[type="checkbox"]');
+                // Corrected selector to target tbody rows
+                const rows = document.querySelectorAll('#dataTable tbody tr'); 
+                const selectedCategories = Array.from(checkboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+            
+                rows.forEach(row => {
+                    const rowCategories = row.getAttribute('data-categories').split(',');
+                    // Show row if no categories are selected OR if it matches at least one selected category
+                    const isVisible = selectedCategories.length === 0 || selectedCategories.some(category => rowCategories.includes(category));
+                    row.style.display = isVisible ? '' : 'none';
+                });
+            }
+            
+            let sortOrder = {}; // Keep track of sorting order for each column
+            
+            function sortTable(columnIndex) {
+                const table = document.getElementById('dataTable');
+                // Ensure we select rows only from the tbody
+                const tBody = table.tBodies[0]; 
+                const rows = Array.from(tBody.rows);
+                
+                // Determine if the column *should* be numeric based on content *after* potential placeholders are replaced
+                // For now, we rely on the existing logic which checks the first row's actual content.
+                // If the first visible row has 'AAA' in this column, isNumeric will be false.
+                // If the first visible row has a number, isNumeric will be true.
+                let isNumeric = false; 
+                if (rows.length > 0) {
+                    const firstCellContent = rows[0].cells[columnIndex].textContent.trim();
+                    // Check if it's not the placeholder AND it looks like a number
+                    if (firstCellContent !== 'AAA' && !isNaN(parseFloat(firstCellContent)) && isFinite(firstCellContent)) {
+                         isNumeric = true;
+                    }
+                    // Even if the first row is AAA, check a few more in case the first one hasn't been updated yet
+                    else if (firstCellContent === 'AAA') {
+                        for(let i = 1; i < Math.min(rows.length, 5); i++) { // Check up to 5 rows
+                             const nextCellContent = rows[i].cells[columnIndex].textContent.trim();
+                             if (nextCellContent !== 'AAA' && !isNaN(parseFloat(nextCellContent)) && isFinite(nextCellContent)) {
+                                isNumeric = true;
+                                break;
+                             }
+                        }
+                    }
+                }
+
+                // Toggle the sorting order for the column
+                sortOrder[columnIndex] = sortOrder[columnIndex] === 'asc' ? 'desc' : 'asc';
+                
+                rows.sort((a, b) => {
+                    const aText = a.cells[columnIndex].textContent.trim();
+                    const bText = b.cells[columnIndex].textContent.trim();
+                
+                    let comparison;
+                    if (isNumeric) {
+                        // Treat 'AAA' or non-numeric as potentially lowest or highest, depending on sort order?
+                        // For simplicity now, parseFloat will return NaN for 'AAA', handle NaN comparison
+                        const aValue = parseFloat(aText);
+                        const bValue = parseFloat(bText);
+
+                        // Handle cases where one value is NaN (e.g., 'AAA') and the other isn't
+                        if (isNaN(aValue) && !isNaN(bValue)) {
+                            comparison = sortOrder[columnIndex] === 'asc' ? 1 : -1; // Put NaN ('AAA') last when ascending
+                        } else if (!isNaN(aValue) && isNaN(bValue)) {
+                            comparison = sortOrder[columnIndex] === 'asc' ? -1 : 1; // Put NaN ('AAA') last when ascending
+                        } else if (isNaN(aValue) && isNaN(bValue)) {
+                            comparison = 0; // Treat two NaNs as equal
+                        } else {
+                           comparison = aValue - bValue; // Normal numeric comparison
+                        }
+
+                    } else {
+                        // Standard string comparison (will sort 'AAA' alphabetically)
+                        comparison = aText.localeCompare(bText);
+                    }
+                
+                    return sortOrder[columnIndex] === 'asc' ? comparison : -comparison;
+                });
+            
+                // Re-append sorted rows to the tbody
+                rows.forEach(row => tBody.appendChild(row)); 
+            }    
+
+            // Initial filter call to show all rows by default if needed, or handle initial state
+             filterTable(); 
+        </script>
+    </body>
+</html>
